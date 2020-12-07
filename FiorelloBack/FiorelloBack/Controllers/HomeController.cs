@@ -63,14 +63,17 @@ namespace FiorelloBack.Controllers
             return RedirectToAction(nameof(Index));
             
         }
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Product product = _db.Products.Find(id);
-        //    _db.Products.Remove(product);
-        //    _db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
-
+       
+   
+    public ActionResult Remove(int id)
+    {
+     List<BasketVM> dbBasket = new List<BasketVM>();
+     basket = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
+      BasketVM remove = basket.FirstOrDefault(p => p.Id == id);
+      basket.Remove(remove);
+      Response.Cookies.Append("basket", JsonConvert.SerializeObject(basket));
+      return RedirectToAction(nameof(Basket));
+    }
 
         public async Task<IActionResult> Basket()
         {
